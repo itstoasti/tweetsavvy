@@ -1,0 +1,75 @@
+{
+  "manifest_version": 3,
+  "version": "6.3",
+  "name": "TweetSavvy",
+  "description": "The fastest way to reply to tweets using ChatGPT and the easiest way to boost your tweet impressions.",
+  "icons": {
+    "128": "src/images/XReplyGPT.png"
+  },
+  "background": {
+    "service_worker": "src/service-worker.js",
+    "type": "module"
+  },
+  "commands": {
+    "generate_reply": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+L",
+        "mac": "Command+Shift+L"
+      },
+      "description": "Generate reply for tweets."
+    },
+    "move_to_next_button": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+E",
+        "mac": "Command+Shift+E"
+      },
+      "description": "Move to the next generated reply."
+    },
+    "move_to_previous_button": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+S",
+        "mac": "Command+Shift+S"
+      },
+      "description": "Move to the previous generated reply."
+    }
+  },
+  "permissions": [
+    "activeTab",
+    "storage",
+    "scripting",
+    "alarms",
+    "notifications",
+    "clipboardRead",
+    "clipboardWrite"
+  ],
+  "host_permissions": [
+    "https://twitter.com/*",
+    "https://x.com/*",
+    "https://api.openai.com/*"
+  ],
+  "content_scripts": [
+    {
+      "matches": [
+        "https://twitter.com/*",
+        "https://mobile.twitter.com/*",
+        "https://x.com/*"
+      ],
+      "js": [
+        "src/content.js",
+        "src/content-window-exit.js"
+      ]
+    },
+    {
+      "matches": [
+        "https://x.com/compose/post"
+      ],
+      "js": [
+        "src/compose.js"
+      ]
+    }
+  ],
+  "action": {
+    "default_popup": "src/index.html",
+    "default_icon": "src/images/XReplyGPTbg.png"
+  }
+}
